@@ -1,0 +1,35 @@
+version: '3.9'
+
+services:
+  web:
+    build: .
+    command: bash -c "python manage.py migrate && gunicorn --bind 0.0.0.0:8000 shop_project.wsgi:application"
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+    environment:
+      DEBUG: "1"
+      DJANGO_SECRET_KEY: "your_secret_key"
+      DJANGO_ALLOWED_HOSTS: "localhost 127.0.0.1 [::1]"
+      DB_NAME: shop_db
+      DB_USER: shop_user
+      DB_PASSWORD: shop_password
+      DB_HOST: db
+      DB_PORT: 5432
+    volumes:
+      - .:/app
+      - static_volume:/app/staticfiles
+
+  db:
+    image: postgres:13
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    environment:
+      POSTGRES_DB: shop_db
+      POSTGRES_USER: shop_user
+      POSTGRES_PASSWORD: shop_password
+
+volumes:
+  postgres_data:
+  static_volume:

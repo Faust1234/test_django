@@ -1,0 +1,20 @@
+<!-- templates/catalog/catalog.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Catalog</title>
+</head>
+<body>
+    <h1>Catalog</h1>
+    <ul>
+        {% for product in products %}
+            <li>
+                <h2>{{ product.name }}</h2>
+                <img src="{{ product.preview_image.url }}" alt="{{ product.name }}">
+            </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
